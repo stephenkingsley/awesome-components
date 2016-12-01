@@ -31,12 +31,11 @@ const spanStyle = {
 };
 
 
-export default class Button extends Component {
+export default class SolidButton extends Component {
   static propTypes = {
     string: PropTypes.string,
     style: PropTypes.shape({}),
     // spanStyle: PropTypes.shape({}),
-    type: PropTypes.string,
   };
 
   static defaultProps = {
@@ -46,14 +45,8 @@ export default class Button extends Component {
 
   constructor(props) {
     super(props);
-    let buttonStyle = {};
-    if (props.type === 'hollow') {
-      buttonStyle = Object.assign(defaultButtonStyle, hollowStyle, props.style);
-    } else {
-      buttonStyle = Object.assign(defaultButtonStyle, solidStyle, props.style);
-    }
     this.state = {
-      buttonStyle,
+      buttonStyle: Object.assign(defaultButtonStyle, solidStyle, props.style),
     };
     this.mouseOver = this.mouseOver.bind(this);
     this.mouseLeave = this.mouseLeave.bind(this);
@@ -72,37 +65,19 @@ export default class Button extends Component {
   }
 
   mouseOver() {
-    const { type } = this.props;
     const { buttonStyle } = this.state;
     const newStyle = clone(buttonStyle);
-    if (type && type === 'hollow') {
-      // newStyle.background = '#E0E0E0';
-      this.setState({
-        buttonStyle: Object.assign(newStyle, { background: '#E0E0E0' }),
-      });
-    } else {
-      // newStyle.background = '#06d7f1';
-      this.setState({
-        buttonStyle: Object.assign(newStyle, { background: '#06d7f1' }),
-      });
-    }
+    this.setState({
+      buttonStyle: Object.assign(newStyle, { background: '#06d7f1' }),
+    });
   }
 
   mouseLeave() {
-    const { type } = this.props;
     const { buttonStyle } = this.state;
     const newStyle = clone(buttonStyle);
-    if (type && type === 'hollow') {
-      // newStyle.background = '#FFF';
-      this.setState({
-        buttonStyle: Object.assign(newStyle, { background: '#FFF' }),
-      });
-    } else {
-      // newStyle.background = '#00bcd4';
-      this.setState({
-        buttonStyle: Object.assign(newStyle, { background: '#00bcd4' }),
-      });
-    }
+    this.setState({
+      buttonStyle: Object.assign(newStyle, { background: '#00bcd4' }),
+    });
   }
 
   render() {
@@ -112,6 +87,8 @@ export default class Button extends Component {
       <div
         {...this.props}
         style={buttonStyle}
+        onMouseOver={event => this.mouseOver(event)}
+        onMouseLeave={event => this.mouseLeave(event)}
       >
         <span
           style={spanStyle}

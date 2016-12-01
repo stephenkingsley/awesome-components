@@ -15,10 +15,6 @@ const defaultButtonStyle = {
   padding: '4px',
   cursor: 'pointer',
 };
-const solidStyle = {
-  background: '#00bcd4',
-  color: '#FFF',
-};
 const hollowStyle = {
   border: '2px solid #00bcd4',
   background: '#FFF',
@@ -31,12 +27,10 @@ const spanStyle = {
 };
 
 
-export default class Button extends Component {
+export default class HollowButton extends Component {
   static propTypes = {
     string: PropTypes.string,
     style: PropTypes.shape({}),
-    // spanStyle: PropTypes.shape({}),
-    type: PropTypes.string,
   };
 
   static defaultProps = {
@@ -46,63 +40,33 @@ export default class Button extends Component {
 
   constructor(props) {
     super(props);
-    let buttonStyle = {};
-    if (props.type === 'hollow') {
-      buttonStyle = Object.assign(defaultButtonStyle, hollowStyle, props.style);
-    } else {
-      buttonStyle = Object.assign(defaultButtonStyle, solidStyle, props.style);
-    }
     this.state = {
-      buttonStyle,
+      buttonStyle: Object.assign(defaultButtonStyle, hollowStyle, props.style),
     };
     this.mouseOver = this.mouseOver.bind(this);
     this.mouseLeave = this.mouseLeave.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    let buttonStyle;
-    if (nextProps.type === 'hollow') {
-      buttonStyle = Object.assign(defaultButtonStyle, hollowStyle, nextProps.style);
-    } else {
-      buttonStyle = Object.assign(defaultButtonStyle, solidStyle, nextProps.style);
-    }
     this.setState({
-      buttonStyle,
+      buttonStyle: Object.assign(defaultButtonStyle, hollowStyle, nextProps.style),
     });
   }
 
   mouseOver() {
-    const { type } = this.props;
     const { buttonStyle } = this.state;
     const newStyle = clone(buttonStyle);
-    if (type && type === 'hollow') {
-      // newStyle.background = '#E0E0E0';
-      this.setState({
-        buttonStyle: Object.assign(newStyle, { background: '#E0E0E0' }),
-      });
-    } else {
-      // newStyle.background = '#06d7f1';
-      this.setState({
-        buttonStyle: Object.assign(newStyle, { background: '#06d7f1' }),
-      });
-    }
+    this.setState({
+      buttonStyle: Object.assign(newStyle, { background: '#E0E0E0' }),
+    });
   }
 
   mouseLeave() {
-    const { type } = this.props;
     const { buttonStyle } = this.state;
     const newStyle = clone(buttonStyle);
-    if (type && type === 'hollow') {
-      // newStyle.background = '#FFF';
-      this.setState({
-        buttonStyle: Object.assign(newStyle, { background: '#FFF' }),
-      });
-    } else {
-      // newStyle.background = '#00bcd4';
-      this.setState({
-        buttonStyle: Object.assign(newStyle, { background: '#00bcd4' }),
-      });
-    }
+    this.setState({
+      buttonStyle: Object.assign(newStyle, { background: '#FFF' }),
+    });
   }
 
   render() {
@@ -111,6 +75,8 @@ export default class Button extends Component {
     return (
       <div
         {...this.props}
+        onMouseOver={event => this.mouseOver(event)}
+        onMouseLeave={event => this.mouseLeave(event)}
         style={buttonStyle}
       >
         <span

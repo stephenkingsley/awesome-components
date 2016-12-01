@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '../../../index';
+import { HollowButton, SolidButton } from '../../../index';
 import TemplateRightBar from './templateRightBar';
 
 const md = `
@@ -8,11 +8,19 @@ const md = `
   ### Code
 
   \`\`\`js
-  <Button
+  <HollowButton
     onClick={() => alert('click')}
     style={{
       width: '240px',
-      height: '40px',
+      height: '54px',
+    }}
+  />
+
+  <SolidButton
+    onClick={() => alert('click')}
+    style={{
+      width: '240px',
+      height: '54px',
     }}
   />
   \`\`\`
@@ -20,12 +28,26 @@ const md = `
 
 export default () => (
   <TemplateRightBar md={md}>
-    <Button
-      onClick={() => alert('click')}
+    <div
       style={{
-        width: '240px',
-        height: '40px',
+        display: 'flex',
       }}
-    />
+    >
+      <HollowButton
+        onClick={() => alert('click')}
+        style={{
+          width: '240px',
+          height: '54px',
+        }}
+      />
+      <div style={{ width: '50px' }} />
+      <SolidButton
+        onClick={() => alert('click')}
+        style={{
+          width: '240px',
+          height: '54px',
+        }}
+      />
+    </div>
   </TemplateRightBar>
 );
