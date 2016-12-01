@@ -4,6 +4,10 @@ const componentsList = [
     route: '/autoComplete',
   },
   {
+    name: 'Button',
+    route: '/button',
+  },
+  {
     name: 'Page',
     route: '/page',
   },
